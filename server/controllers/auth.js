@@ -1,11 +1,15 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { JWT_SECRET } = require('../middleware/auth');
-
+const bcrypt = require('bcryptjs');
 const register = async (req, res) => {
     try {
-        const { username, password, role } = req.body;
-        const user = new User({ username, password, role });
+        const { username, email, password, role } = req.body;
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return res.status(400).json({ error: 'Email already exists' });
+        }
+        const user = new User({ username, email, password, role });
         await user.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
@@ -15,8 +19,8 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
         if (!user || !(await user.comparePassword(password))) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
