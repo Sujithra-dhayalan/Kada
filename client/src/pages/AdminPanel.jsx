@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/Header';
 import api from '../utils/api';
@@ -7,6 +8,7 @@ import { useToast } from '../context/ToastContext';
 const AdminPanel = () => {
   const { user } = useContext(AuthContext);
   const { addToast } = useToast();
+  const navigate = useNavigate();
   const [sweets, setSweets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
@@ -118,7 +120,12 @@ const AdminPanel = () => {
   return (
     <div className="container">
       <Header />
-      <h1 className="header-title">Admin Panel</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <h1 className="header-title" style={{ margin: 0 }}>Admin Panel</h1>
+        <button onClick={() => navigate('/')} className="btn" style={{ padding: '8px 16px', fontSize: 14 }}>
+          ← Back to Shop
+        </button>
+      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 30 }}>
         {/* Form */}

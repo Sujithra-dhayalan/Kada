@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import api from '../utils/api';
 
@@ -6,6 +7,7 @@ const PurchaseHistory = () => {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPurchases();
@@ -30,7 +32,12 @@ const PurchaseHistory = () => {
   return (
     <div className="container">
       <Header />
-      <h1 className="header-title">Purchase History</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <h1 className="header-title" style={{ margin: 0 }}>Purchase History</h1>
+        <button onClick={() => navigate('/')} className="btn" style={{ padding: '8px 16px', fontSize: 14 }}>
+          ← Back to Shop
+        </button>
+      </div>
 
       {loading && <div>Loading your purchases…</div>}
       {error && <div style={{ color: 'var(--danger)', padding: 10 }}>{error}</div>}
