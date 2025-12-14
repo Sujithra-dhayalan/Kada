@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import Header from '../components/Header';
 import SweetCard from '../components/SweetCard';
